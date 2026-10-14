@@ -20,7 +20,8 @@ button { cursor: pointer; }
 .app-header { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 20px max(24px, calc((100vw - 1120px) / 2)); background: var(--surface); border-bottom: 1px solid var(--border); }
 .brand { font: 700 24px "Space Grotesk", sans-serif; color: var(--primary); }
 .app-header nav { display: flex; gap: 24px; color: var(--muted); font-weight: 600; }
-.app-header nav a:hover { color: var(--primary); }
+.nav-logout { padding: 0; border: 0; background: transparent; color: inherit; font-weight: inherit; }
+.app-header nav a:hover, .nav-logout:hover { color: var(--primary); }
 main { width: min(1120px, calc(100% - 40px)); margin: 44px auto 80px; }
 h1, h2 { font-family: "Space Grotesk", sans-serif; }
 h1 { margin: 8px 0 10px; font-size: clamp(30px, 4vw, 44px); letter-spacing: -1.4px; }

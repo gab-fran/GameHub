@@ -1,14 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useSyncExternalStore } from "react";
+
+const authChangedEvent = "gamehub-auth-changed";
+
+function subscribe(onChange: () => void) {
+  window.addEventListener("storage", onChange);
+  window.addEventListener(authChangedEvent, onChange);
+  return () => {
+    window.removeEventListener("storage", onChange);
+    window.removeEventListener(authChangedEvent, onChange);
+  };
+}
+
+function getSnapshot() {
+  return Boolean(window.localStorage.getItem("gamehub-token"));
+}
 
 export function useAuth() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const isAuthenticated = useSyncExternalStore(subscribe, getSnapshot, () => false);
+
+  function authenticate(token: string) {
+    window.localStorage.setItem("gamehub-token", token);
+    window.dispatchEvent(new Event(authChangedEvent));
+  }
 
   function logout() {
     window.localStorage.removeItem("gamehub-token");
-    setIsAuthenticated(false);
+    window.dispatchEvent(new Event(authChangedEvent));
   }
 
-  return { isAuthenticated, setIsAuthenticated, logout };
+  return { isAuthenticated, authenticate, logout };
 }

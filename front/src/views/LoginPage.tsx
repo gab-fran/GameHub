@@ -3,9 +3,11 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/fetch/authRequests";
+import { useAuth } from "@/utils/useAuth";
 
 export function LoginPage() {
   const router = useRouter();
+  const { authenticate } = useAuth();
   const [email, setEmail] = useState("aluno@gamehub.local");
   const [password, setPassword] = useState("123456");
   const [error, setError] = useState("");
@@ -18,7 +20,7 @@ export function LoginPage() {
 
     try {
       const result = await login({ email, password });
-      window.localStorage.setItem("gamehub-token", result.token);
+      authenticate(result.token);
       router.push("/dashboard");
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : "Falha no login.");
