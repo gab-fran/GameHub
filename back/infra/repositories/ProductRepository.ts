@@ -64,7 +64,10 @@ export class ProductRepository {
   }
 
   async delete(id: number): Promise<void> {
-    await db.query("DELETE FROM products WHERE id = $1", [id]);
+    const result = await db.query("DELETE FROM products WHERE id = $1", [id]);
+    if (!result.rowCount) {
+      throw Object.assign(new Error("Produto não encontrado."), { status: 404 });
+    }
   }
 
   async getDashboard() {

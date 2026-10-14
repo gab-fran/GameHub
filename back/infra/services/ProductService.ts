@@ -14,7 +14,7 @@ export class ProductService {
 
   async remove(id: number) {
     if (!Number.isInteger(id) || id <= 0) {
-      throw new Error("Identificador de produto inválido.");
+      throw Object.assign(new Error("Identificador de produto inválido."), { status: 400 });
     }
 
     await this.repository.delete(id);
