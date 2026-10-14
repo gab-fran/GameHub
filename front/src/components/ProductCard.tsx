@@ -4,14 +4,15 @@ import { formatCurrency } from "@/utils/formatCurrency";
 interface ProductCardProps {
   product: ProductDTO;
   onDelete?: (id: number) => void;
+  deleting?: boolean;
 }
 
-export function ProductCard({ product, onDelete }: ProductCardProps) {
+export function ProductCard({ product, onDelete, deleting }: ProductCardProps) {
   return (
     <article className="product-card">
       <div className="product-card__top">
         <span className="category-pill">{product.category}</span>
-        <span className={product.stock < 5 ? "stock stock--low" : "stock"}>
+        <span className={product.stock <= 5 ? "stock stock--low" : "stock"}>
           Estoque: {product.stock}
         </span>
       </div>
@@ -20,7 +21,7 @@ export function ProductCard({ product, onDelete }: ProductCardProps) {
       <div className="product-card__bottom">
         <strong>{formatCurrency(product.price)}</strong>
         {onDelete && (
-          <button className="button button--danger" onClick={() => onDelete(product.id)}>
+          <button className="button button--danger" disabled={deleting} onClick={() => onDelete(product.id)}>
             Excluir
           </button>
         )}

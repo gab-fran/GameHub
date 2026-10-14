@@ -1,16 +1,18 @@
 import type { Request, Response } from "express";
 import { createProductSchema } from "../dto/CreateProductDTO";
 import { ProductService } from "../../infra/services/ProductService";
+import { productFiltersSchema } from "../dto/ProductFiltersDTO";
 
 export class ProductController {
   constructor(private readonly service = new ProductService()) {}
 
   list = async (request: Request, response: Response) => {
-    const products = await this.service.list({
-      search: String(request.query.search ?? ""),
-      category: String(request.query.category ?? ""),
-      sort: String(request.query.sort ?? "name")
-    });
+    const parsed = productFiltersSchema.safeParse(request.query);
+    if (!parsed.success) {
+      response.status(400).json({ message: "Filtros inválidos.", errors: parsed.error.flatten().fieldErrors });
+      return;
+    }
+    const products = await this.service.list(parsed.data);
     response.json(products);
   };
 

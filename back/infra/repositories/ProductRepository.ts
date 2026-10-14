@@ -1,11 +1,15 @@
 import { db } from "../database/db";
 import type { CreateProductDTO } from "../../src/dto/CreateProductDTO";
 import type { Product } from "../../src/model/Product";
+import { productFiltersSchema, type ProductFilters } from "../../src/dto/ProductFiltersDTO";
+export type { ProductFilters } from "../../src/dto/ProductFiltersDTO";
 
-export interface ProductFilters {
-  search?: string;
-  category?: string;
-  sort?: string;
+export interface ProductPage {
+  items: Product[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
 }
 
 function mapProduct(row: Record<string, unknown>): Product {
@@ -20,37 +24,52 @@ function mapProduct(row: Record<string, unknown>): Product {
 }
 
 export class ProductRepository {
-  async findAll(filters: ProductFilters): Promise<Product[]> {
+  async findAll(input: ProductFilters): Promise<ProductPage> {
+    const filters = productFiltersSchema.parse(input);
     const conditions: string[] = [];
     const values: unknown[] = [];
 
     if (filters.search) {
-      values.push(`%${filters.search}%`);
+      values.push(`%${filters.search.replace(/[\\%_]/g, "\\$&")}%`);
       const parameter = `$${values.length}`;
       conditions.push(`(name ILIKE ${parameter} OR description ILIKE ${parameter})`);
     }
 
     if (filters.category) {
       values.push(filters.category);
-      conditions.push(`name = $${values.length}`);
+      conditions.push(`category = $${values.length}`);
+    }
+
+    if (filters.stock === "available") conditions.push("stock > 0");
+    if (filters.stock === "low") conditions.push("stock <= 5");
+    if (filters.stock === "out") conditions.push("stock = 0");
+    if (filters.minPrice !== undefined) {
+      values.push(filters.minPrice);
+      conditions.push(`price >= $${values.length}`);
+    }
+    if (filters.maxPrice !== undefined) {
+      values.push(filters.maxPrice);
+      conditions.push(`price <= $${values.length}`);
     }
 
     const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
-    const orderBy = filters.sort === "price" ? "price ASC" : "name ASC";
-    const sql = `SELECT id, name, description, category, price, stock FROM products ${where} ORDER BY ${orderBy}`;
-
-    const firstStartedAt = performance.now();
-    const discardedResult = await db.query(sql, values);
-    console.info(
-      `[SQL LENTO] listagem descartada: ${discardedResult.rowCount ?? 0} linhas em ${(performance.now() - firstStartedAt).toFixed(2)} ms`
-    );
-
-    const secondStartedAt = performance.now();
-    const result = await db.query(sql, values);
-    console.info(
-      `[SQL LENTO] listagem retornada: ${result.rowCount ?? 0} linhas em ${(performance.now() - secondStartedAt).toFixed(2)} ms`
-    );
-    return result.rows.map(mapProduct);
+    const orderBy = filters.sort === "price" ? "price ASC, id ASC"
+      : filters.sort === "price_desc" ? "price DESC, id DESC" : "name ASC, id ASC";
+    values.push(filters.pageSize, (filters.page - 1) * filters.pageSize);
+    // Count and bounded page share one snapshot; only the page reaches Node/browser.
+    const result = await db.query<{ total: string; items: Record<string, unknown>[] }>(`
+      WITH page AS (
+        SELECT id, name, description, category, price, stock FROM products ${where}
+        ORDER BY ${orderBy} LIMIT $${values.length - 1} OFFSET $${values.length}
+      )
+      SELECT (SELECT COUNT(*) FROM products ${where}) AS total,
+        COALESCE((SELECT json_agg(page ORDER BY ${orderBy}) FROM page), '[]'::json) AS items`, values);
+    const total = Number(result.rows[0]?.total ?? 0);
+    return {
+      items: (result.rows[0]?.items ?? []).map(mapProduct),
+      total, page: filters.page, pageSize: filters.pageSize,
+      totalPages: Math.ceil(total / filters.pageSize)
+    };
   }
 
   async create(input: CreateProductDTO): Promise<Product> {

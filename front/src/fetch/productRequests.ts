@@ -5,16 +5,28 @@ export interface ProductFilters {
   search?: string;
   category?: string;
   sort?: string;
+  page?: number;
+  pageSize?: number;
+  stock?: string;
+  minPrice?: string;
+  maxPrice?: string;
 }
 
-export function getProducts(filters: ProductFilters = {}) {
+export interface ProductPage {
+  items: ProductDTO[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
+}
+
+export function getProducts(filters: ProductFilters = {}, signal?: AbortSignal) {
   const params = new URLSearchParams();
 
-  if (filters.search) params.set("search", filters.search);
-  if (filters.category) params.set("category", filters.category);
-  if (filters.sort) params.set("sort", filters.sort);
-
-  return apiRequest<ProductDTO[]>(`/products?${params.toString()}`);
+  for (const [key, value] of Object.entries(filters)) {
+    if (value !== undefined && value !== "") params.set(key, String(value));
+  }
+  return apiRequest<ProductPage>(`/products?${params.toString()}`, { signal });
 }
 
 export function createProduct(product: Omit<ProductDTO, "id">) {
