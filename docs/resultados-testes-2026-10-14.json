@@ -1,0 +1,683 @@
+{
+  "date": "2026-10-14",
+  "timezone": "America/Sao_Paulo",
+  "baselineCommit": "a8d09ae",
+  "environment": {
+    "os": "Windows",
+    "browser": "156.0.8078.4",
+    "mode": "next dev",
+    "currentFrontend": 3000,
+    "currentBackend": 3001,
+    "originalFrontend": 3200,
+    "originalBackend": 3201,
+    "sharedDatabase": true,
+    "indexes": "Índices atuais mantidos para as duas versões",
+    "baselineOnlyAdjustment": "CORS permite localhost:3200 na cópia isolada"
+  },
+  "suites": {
+    "backend": {
+      "command": "npm test",
+      "passed": 6,
+      "failed": 0,
+      "durationMs": 474.6923
+    },
+    "integration": {
+      "command": "npm run test:integration",
+      "passedIncludingParent": 10,
+      "scenarios": 9,
+      "failed": 0,
+      "durationMs": 1542.8311
+    },
+    "e2e": {
+      "command": "npm run test:e2e --prefix front",
+      "passed": 7,
+      "failed": 0,
+      "durationSeconds": 42.8,
+      "api": "simulada"
+    }
+  },
+  "benchmark": {
+    "command": "npm run benchmark --prefix back",
+    "products": 60000,
+    "samples": 5,
+    "method": "Mediana após aquecimento, índices atuais nas duas versões; fluxos antigos reproduzidos pelo benchmark",
+    "catalog": {
+      "original": {
+        "medianMs": 139.2,
+        "payloadBytes": 10876573,
+        "queries": 2
+      },
+      "current": {
+        "medianMs": 3.26,
+        "payloadBytes": 4659,
+        "queries": 1,
+        "products": 24
+      }
+    },
+    "dashboard": {
+      "originalMedianMs": 18.73,
+      "currentMedianMs": 17.15,
+      "originalQueries": 4,
+      "currentQueries": 1
+    }
+  },
+  "browser": {
+    "date": "2026-10-14",
+    "results": [
+      {
+        "version": "atual",
+        "scenario": "login aluno",
+        "pass": true
+      },
+      {
+        "version": "atual",
+        "scenario": "carga inicial",
+        "elapsedMs": 1410.35,
+        "cards": 24,
+        "requests": [
+          {
+            "url": "http://localhost:3001/api/products?sort=name&stock=all&page=1&pageSize=24",
+            "method": "GET",
+            "status": 200,
+            "bytes": 4659,
+            "products": 24,
+            "total": 60000,
+            "durationMs": 15.191
+          }
+        ],
+        "browserMs": {
+          "TaskDuration": 173.9,
+          "ScriptDuration": 52.86,
+          "LayoutDuration": 20.89,
+          "RecalcStyleDuration": 6.73
+        }
+      },
+      {
+        "version": "atual",
+        "scenario": "digitação lenta console (450 ms entre teclas)",
+        "elapsedMs": 3297.61,
+        "cards": 24,
+        "requests": [
+          {
+            "url": "http://localhost:3001/api/products?search=c&sort=name&stock=all&page=1&pageSize=24",
+            "method": "GET",
+            "status": 200,
+            "bytes": 4659,
+            "products": 24,
+            "total": 60000,
+            "durationMs": 37.045
+          },
+          {
+            "url": "http://localhost:3001/api/products?search=co&sort=name&stock=all&page=1&pageSize=24",
+            "method": "GET",
+            "status": 200,
+            "bytes": 4568,
+            "products": 24,
+            "total": 44994,
+            "durationMs": 50.048
+          },
+          {
+            "url": "http://localhost:3001/api/products?search=con&sort=name&stock=all&page=1&pageSize=24",
+            "method": "GET",
+            "status": 200,
+            "bytes": 4567,
+            "products": 24,
+            "total": 19996,
+            "durationMs": 46.535
+          },
+          {
+            "url": "http://localhost:3001/api/products?search=cons&sort=name&stock=all&page=1&pageSize=24",
+            "method": "GET",
+            "status": 200,
+            "bytes": 4566,
+            "products": 24,
+            "total": 9998,
+            "durationMs": 29.282
+          },
+          {
+            "url": "http://localhost:3001/api/products?search=conso&sort=name&stock=all&page=1&pageSize=24",
+            "method": "GET",
+            "status": 200,
+            "bytes": 4566,
+            "products": 24,
+            "total": 9998,
+            "durationMs": 36.444
+          },
+          {
+            "url": "http://localhost:3001/api/products?search=consol&sort=name&stock=all&page=1&pageSize=24",
+            "method": "GET",
+            "status": 200,
+            "bytes": 4566,
+            "products": 24,
+            "total": 9998,
+            "durationMs": 17.538
+          },
+          {
+            "url": "http://localhost:3001/api/products?search=console&sort=name&stock=all&page=1&pageSize=24",
+            "method": "GET",
+            "status": 200,
+            "bytes": 4566,
+            "products": 24,
+            "total": 9998,
+            "durationMs": 28.175
+          }
+        ],
+        "browserMs": {
+          "TaskDuration": 239.76,
+          "ScriptDuration": 160.04,
+          "LayoutDuration": 20.23,
+          "RecalcStyleDuration": 4.66
+        }
+      },
+      {
+        "version": "atual",
+        "scenario": "colar termo descrição",
+        "elapsedMs": 382.56,
+        "cards": 1,
+        "requests": [
+          {
+            "url": "http://localhost:3001/api/products?search=C%C3%B3digo+de+cat%C3%A1logo+10008&sort=name&stock=all&page=1&pageSize=24",
+            "method": "GET",
+            "status": 200,
+            "bytes": 239,
+            "products": 1,
+            "total": 1,
+            "durationMs": 12.638
+          }
+        ],
+        "browserMs": {
+          "TaskDuration": 33.3,
+          "ScriptDuration": 13.37,
+          "LayoutDuration": 3.09,
+          "RecalcStyleDuration": 0.36
+        }
+      },
+      {
+        "version": "atual",
+        "scenario": "limpar busca",
+        "elapsedMs": 425.48,
+        "cards": 24,
+        "requests": [
+          {
+            "url": "http://localhost:3001/api/products?sort=name&stock=all&page=1&pageSize=24",
+            "method": "GET",
+            "status": 200,
+            "bytes": 4659,
+            "products": 24,
+            "total": 60000,
+            "durationMs": 14.857
+          }
+        ],
+        "browserMs": {
+          "TaskDuration": 59.21,
+          "ScriptDuration": 34.14,
+          "LayoutDuration": 4.1,
+          "RecalcStyleDuration": 0.82
+        }
+      },
+      {
+        "version": "atual",
+        "scenario": "categoria Jogos",
+        "elapsedMs": 393.37,
+        "cards": 24,
+        "requests": [
+          {
+            "url": "http://localhost:3001/api/products?category=Jogos&sort=name&stock=all&page=1&pageSize=24",
+            "method": "GET",
+            "status": 200,
+            "bytes": 4711,
+            "products": 24,
+            "total": 22000,
+            "durationMs": 17.402
+          }
+        ],
+        "browserMs": {
+          "TaskDuration": 53.84,
+          "ScriptDuration": 31.81,
+          "LayoutDuration": 4.39,
+          "RecalcStyleDuration": 1.06
+        }
+      },
+      {
+        "version": "atual",
+        "scenario": "regressão categoria",
+        "pass": true,
+        "cards": 24
+      },
+      {
+        "version": "atual",
+        "scenario": "limpar categoria",
+        "elapsedMs": 439.53,
+        "cards": 24,
+        "requests": [
+          {
+            "url": "http://localhost:3001/api/products?sort=name&stock=all&page=1&pageSize=24",
+            "method": "GET",
+            "status": 200,
+            "bytes": 4659,
+            "products": 24,
+            "total": 60000,
+            "durationMs": 24.816
+          }
+        ],
+        "browserMs": {
+          "TaskDuration": 75.42,
+          "ScriptDuration": 51.17,
+          "LayoutDuration": 3.71,
+          "RecalcStyleDuration": 1
+        }
+      },
+      {
+        "version": "atual",
+        "scenario": "ordenar preço",
+        "elapsedMs": 402.63,
+        "cards": 24,
+        "requests": [
+          {
+            "url": "http://localhost:3001/api/products?sort=price&stock=all&page=1&pageSize=24",
+            "method": "GET",
+            "status": 200,
+            "bytes": 3830,
+            "products": 24,
+            "total": 60000,
+            "durationMs": 15.966
+          }
+        ],
+        "browserMs": {
+          "TaskDuration": 56.96,
+          "ScriptDuration": 38.41,
+          "LayoutDuration": 3.03,
+          "RecalcStyleDuration": 0.56
+        }
+      },
+      {
+        "version": "atual",
+        "scenario": "regressão preço",
+        "pass": true,
+        "firstPrices": [
+          9.9,
+          9.9,
+          50.36,
+          50.47,
+          50.52,
+          50.94
+        ]
+      },
+      {
+        "version": "atual",
+        "scenario": "ordenar nome",
+        "elapsedMs": 442.88,
+        "cards": 24,
+        "requests": [
+          {
+            "url": "http://localhost:3001/api/products?sort=name&stock=all&page=1&pageSize=24",
+            "method": "GET",
+            "status": 200,
+            "bytes": 4659,
+            "products": 24,
+            "total": 60000,
+            "durationMs": 17.814
+          }
+        ],
+        "browserMs": {
+          "TaskDuration": 88.27,
+          "ScriptDuration": 54.84,
+          "LayoutDuration": 7.52,
+          "RecalcStyleDuration": 1.91
+        }
+      },
+      {
+        "version": "atual",
+        "scenario": "Produtos → Dashboard",
+        "elapsedMs": 295.88,
+        "cards": 0,
+        "requests": [
+          {
+            "url": "http://localhost:3001/api/dashboard",
+            "method": "GET",
+            "status": 200,
+            "bytes": 661,
+            "durationMs": 22.79
+          }
+        ],
+        "browserMs": {
+          "TaskDuration": 105.05,
+          "ScriptDuration": 22.5,
+          "LayoutDuration": 2.18,
+          "RecalcStyleDuration": 3.08
+        }
+      },
+      {
+        "version": "atual",
+        "scenario": "dashboard catálogo real",
+        "dashboard": {
+          "totalProducts": 60000,
+          "lowStock": 12950,
+          "outOfStock": 2084,
+          "inventoryValue": 904243645.6700001,
+          "categories": 5,
+          "byCategory": [
+            {
+              "category": "Acessórios",
+              "totalProducts": 21998,
+              "lowStock": 5084,
+              "outOfStock": 833,
+              "inventoryValue": 184597922.32
+            },
+            {
+              "category": "Consoles",
+              "totalProducts": 11998,
+              "lowStock": 2590,
+              "outOfStock": 417,
+              "inventoryValue": 329157430.48
+            },
+            {
+              "category": "Hardware",
+              "totalProducts": 2002,
+              "lowStock": 98,
+              "outOfStock": 0,
+              "inventoryValue": 105952079.2
+            },
+            {
+              "category": "Jogos",
+              "totalProducts": 22000,
+              "lowStock": 5090,
+              "outOfStock": 834,
+              "inventoryValue": 180943574.36
+            },
+            {
+              "category": "Periféricos",
+              "totalProducts": 2002,
+              "lowStock": 88,
+              "outOfStock": 0,
+              "inventoryValue": 103592639.31
+            }
+          ]
+        }
+      },
+      {
+        "version": "atual",
+        "scenario": "Dashboard → Produtos",
+        "elapsedMs": 917.7,
+        "cards": 24,
+        "requests": [
+          {
+            "url": "http://localhost:3001/api/products?sort=name&stock=all&page=1&pageSize=24",
+            "method": "GET",
+            "status": 200,
+            "bytes": 4659,
+            "products": 24,
+            "total": 60000,
+            "durationMs": 10.194
+          }
+        ],
+        "browserMs": {
+          "TaskDuration": 87.36,
+          "ScriptDuration": 34.1,
+          "LayoutDuration": 3.35,
+          "RecalcStyleDuration": 3.82
+        }
+      },
+      {
+        "version": "atual",
+        "scenario": "cadastro admin e recarga",
+        "elapsedMs": 494.23,
+        "cards": 24,
+        "requests": [
+          {
+            "url": "http://localhost:3001/api/products",
+            "method": "POST",
+            "status": 201,
+            "bytes": 181,
+            "durationMs": 51.513
+          },
+          {
+            "url": "http://localhost:3001/api/products?sort=name&stock=all&page=1&pageSize=24",
+            "method": "GET",
+            "status": 200,
+            "bytes": 4646,
+            "products": 24,
+            "total": 60001,
+            "durationMs": 23.111
+          }
+        ],
+        "browserMs": {
+          "TaskDuration": 99.2,
+          "ScriptDuration": 69.35,
+          "LayoutDuration": 2.9,
+          "RecalcStyleDuration": 2.76
+        }
+      },
+      {
+        "version": "atual",
+        "scenario": "permissões aluno",
+        "create": 403,
+        "delete": 403,
+        "pass": true
+      },
+      {
+        "version": "atual",
+        "scenario": "exclusão admin e recarga",
+        "elapsedMs": 471.3,
+        "cards": 24,
+        "requests": [
+          {
+            "url": "http://localhost:3001/api/products/60002",
+            "method": "DELETE",
+            "status": 200,
+            "bytes": 44,
+            "durationMs": 10.723
+          },
+          {
+            "url": "http://localhost:3001/api/products?sort=name&stock=all&page=1&pageSize=24",
+            "method": "GET",
+            "status": 200,
+            "bytes": 4659,
+            "products": 24,
+            "total": 60000,
+            "durationMs": 18.176
+          }
+        ],
+        "browserMs": {
+          "TaskDuration": 125.42,
+          "ScriptDuration": 81.91,
+          "LayoutDuration": 6.54,
+          "RecalcStyleDuration": 3.43
+        }
+      },
+      {
+        "version": "atual",
+        "scenario": "requisições simultâneas reais",
+        "pass": true,
+        "requests": [
+          {
+            "search": "console",
+            "status": 200,
+            "products": 24
+          },
+          {
+            "search": "Código de catálogo 10008",
+            "status": 200,
+            "products": 1
+          },
+          {
+            "search": "Headset",
+            "status": 200,
+            "products": 24
+          }
+        ]
+      },
+      {
+        "version": "original",
+        "scenario": "login aluno",
+        "pass": true
+      }
+    ],
+    "errors": [
+      {
+        "version": "original",
+        "message": "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('.product-grid')\nExpected: visible\nTimeout: 120000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" locator('.product-grid') with timeout 120000ms\n  - waiting for locator('.product-grid')\n\n    at captureRawStack (C:\\Users\\53546375890\\Desktop\\WorkSpace\\Projects\\GameHub\\front\\node_modules\\playwright-core\\lib\\coreBundle.js:9282:17)\n    at callMatcherAsStep (C:\\Users\\53546375890\\Desktop\\WorkSpace\\Projects\\GameHub\\front\\node_modules\\playwright\\lib\\matchers\\expect.js:13316:57)\n    at Object.toBeVisible (C:\\Users\\53546375890\\Desktop\\WorkSpace\\Projects\\GameHub\\front\\node_modules\\playwright\\lib\\matchers\\expect.js:13308:23)\n    at readyCatalog (C:\\Users\\53546375890\\Desktop\\WorkSpace\\Projects\\GameHub\\.codex-test-db\\run-browser.cjs:43:68)\n    at measure (C:\\Users\\53546375890\\Desktop\\WorkSpace\\Projects\\GameHub\\.codex-test-db\\run-browser.cjs:35:11)\n    at async run (C:\\Users\\53546375890\\Desktop\\WorkSpace\\Projects\\GameHub\\.codex-test-db\\run-browser.cjs:57:5)\n    at async C:\\Users\\53546375890\\Desktop\\WorkSpace\\Projects\\GameHub\\.codex-test-db\\run-browser.cjs:124:3"
+      }
+    ],
+    "browser": "156.0.8078.4"
+  },
+  "fast": {
+    "version": "atual",
+    "scenario": "digitação rápida console (25 ms entre teclas)",
+    "pass": true,
+    "elapsedMs": 570.54,
+    "requests": [
+      "http://localhost:3001/api/products?search=console&sort=name&stock=all&page=1&pageSize=24"
+    ],
+    "cards": 24,
+    "nameOrderMatchesAPI": true
+  },
+  "sql": {
+    "traces": [
+      {
+        "version": "atual",
+        "scenario": "catálogo",
+        "queries": [
+          {
+            "sql": "WITH page AS ( SELECT id, name, description, category, price, stock FROM products ORDER BY name ASC, id ASC LIMIT $1 OFFSET $2 ) SELECT (SELECT COUNT(*) FROM products ) AS total, COALESCE((SELECT json_agg(page ORDER BY name ASC, id ASC) FROM page), '[]'::json) AS items",
+            "rows": 1,
+            "ms": 297.98
+          }
+        ]
+      },
+      {
+        "version": "atual",
+        "scenario": "dashboard",
+        "queries": [
+          {
+            "sql": "SELECT category, COUNT(*) AS total, COUNT(*) FILTER (WHERE stock <= 5) AS low_stock, COUNT(*) FILTER (WHERE stock = 0) AS out_of_stock, COALESCE(SUM(price * stock), 0) AS inventory_value FROM products GROUP BY category ORDER BY category",
+            "rows": 5,
+            "ms": 21.86
+          }
+        ]
+      },
+      {
+        "version": "original",
+        "scenario": "catálogo",
+        "queries": [
+          {
+            "sql": "SELECT id, name, description, category, price, stock FROM products ORDER BY name ASC",
+            "rows": 60000,
+            "ms": 369.38
+          },
+          {
+            "sql": "SELECT id, name, description, category, price, stock FROM products ORDER BY name ASC",
+            "rows": 60000,
+            "ms": 57.51
+          }
+        ]
+      },
+      {
+        "version": "original",
+        "scenario": "dashboard",
+        "queries": [
+          {
+            "sql": "SELECT COUNT(*) AS value FROM products",
+            "rows": 1,
+            "ms": 5.45
+          },
+          {
+            "sql": "SELECT COUNT(*) AS value FROM products WHERE stock <= 5",
+            "rows": 1,
+            "ms": 1.19
+          },
+          {
+            "sql": "SELECT COALESCE(SUM(price * stock), 0) AS value FROM products",
+            "rows": 1,
+            "ms": 7.91
+          },
+          {
+            "sql": "SELECT COUNT(DISTINCT category) AS value FROM products",
+            "rows": 1,
+            "ms": 6.76
+          }
+        ]
+      }
+    ],
+    "independentDashboardCheck": {
+      "pass": true,
+      "expected": {
+        "total": "60000",
+        "low": "12950",
+        "out": "2084",
+        "categories": "5",
+        "value": "904243645.67"
+      },
+      "dashboard": {
+        "totalProducts": 60000,
+        "lowStock": 12950,
+        "outOfStock": 2084,
+        "inventoryValue": 904243645.6700001,
+        "categories": 5,
+        "byCategory": [
+          {
+            "category": "Acessórios",
+            "totalProducts": 21998,
+            "lowStock": 5084,
+            "outOfStock": 833,
+            "inventoryValue": 184597922.32
+          },
+          {
+            "category": "Consoles",
+            "totalProducts": 11998,
+            "lowStock": 2590,
+            "outOfStock": 417,
+            "inventoryValue": 329157430.48
+          },
+          {
+            "category": "Hardware",
+            "totalProducts": 2002,
+            "lowStock": 98,
+            "outOfStock": 0,
+            "inventoryValue": 105952079.2
+          },
+          {
+            "category": "Jogos",
+            "totalProducts": 22000,
+            "lowStock": 5090,
+            "outOfStock": 834,
+            "inventoryValue": 180943574.36
+          },
+          {
+            "category": "Periféricos",
+            "totalProducts": 2002,
+            "lowStock": 88,
+            "outOfStock": 0,
+            "inventoryValue": 103592639.31
+          }
+        ]
+      }
+    }
+  },
+  "originalAPI": {
+    "category": {
+      "originalItems": 0,
+      "currentTotal": 22000,
+      "currentItems": 24
+    },
+    "price": {
+      "originalAPI": [
+        9.9,
+        9.9,
+        100,
+        100,
+        1200,
+        1200
+      ],
+      "archivedFrontendComparator": [
+        100,
+        100,
+        1200,
+        1200,
+        9.9,
+        9.9
+      ],
+      "note": "Comparador extraído do código original aplicado aos dados reais da API; não é observação de DOM."
+    }
+  }
+}
