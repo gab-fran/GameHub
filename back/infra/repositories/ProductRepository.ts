@@ -90,18 +90,22 @@ export class ProductRepository {
   }
 
   async getDashboard() {
-    const dashboardStartedAt = performance.now();
-    const total = await db.query("SELECT COUNT(*) AS value FROM products");
-    const lowStock = await db.query("SELECT COUNT(*) AS value FROM products WHERE stock <= 5");
-    const inventory = await db.query("SELECT COALESCE(SUM(price * stock), 0) AS value FROM products");
-    const categories = await db.query("SELECT COUNT(DISTINCT category) AS value FROM products");
-    console.info(`[SQL LENTO] dashboard: 4 consultas sequenciais em ${(performance.now() - dashboardStartedAt).toFixed(2)} ms`);
-
+    const result = await db.query(`SELECT category, COUNT(*) AS total,
+      COUNT(*) FILTER (WHERE stock <= 5) AS low_stock,
+      COUNT(*) FILTER (WHERE stock = 0) AS out_of_stock,
+      COALESCE(SUM(price * stock), 0) AS inventory_value
+      FROM products GROUP BY category ORDER BY category`);
+    const byCategory = result.rows.map((row) => ({
+      category: String(row.category), totalProducts: Number(row.total),
+      lowStock: Number(row.low_stock), outOfStock: Number(row.out_of_stock),
+      inventoryValue: Number(row.inventory_value)
+    }));
     return {
-      totalProducts: Number(total.rows[0].value),
-      lowStock: Number(lowStock.rows[0].value),
-      inventoryValue: Number(inventory.rows[0].value),
-      categories: Number(categories.rows[0].value)
+      totalProducts: byCategory.reduce((sum, row) => sum + row.totalProducts, 0),
+      lowStock: byCategory.reduce((sum, row) => sum + row.lowStock, 0),
+      outOfStock: byCategory.reduce((sum, row) => sum + row.outOfStock, 0),
+      inventoryValue: byCategory.reduce((sum, row) => sum + row.inventoryValue, 0),
+      categories: byCategory.length, byCategory
     };
   }
 }
