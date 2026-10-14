@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import { db } from "./db";
 import path from "node:path";
 
-const schemaPath = path.resolve(process.cwd(), "infra/database/init.sql");
+const schemaPath = path.join(__dirname, "init.sql");
 const TARGET_PRODUCT_COUNT = 60000;
 
 const demoProducts = [
@@ -91,6 +91,8 @@ async function initialize() {
   );
 
   await seedProducts();
+  const indexes = await fs.readFile(path.join(__dirname, "indexes.sql"), "utf8");
+  await db.query(indexes);
   console.info(`Banco PostgreSQL inicializado: gamehub (${TARGET_PRODUCT_COUNT} produtos-alvo)`);
 }
 

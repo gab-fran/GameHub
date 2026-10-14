@@ -6,7 +6,8 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "init-db": "tsx infra/database/initDatabase.ts"
+    "init-db": "tsx infra/database/initDatabase.ts",
+    "migrate-db": "tsx infra/database/migrateDatabase.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

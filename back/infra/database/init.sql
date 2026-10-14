@@ -37,7 +37,8 @@ SELECT
     ROUND((50 + random() * 1950)::numeric, 2),
     (1 + floor(random() * 100))::integer,
     NOW() - (random() * INTERVAL '365 days')
-FROM generate_series(1, 5000) AS numero;
+FROM generate_series(1, 5000) AS numero
+WHERE NOT EXISTS (SELECT 1 FROM products);
 
 
 INSERT INTO products (
@@ -48,7 +49,7 @@ INSERT INTO products (
     stock,
     created_at
 )
-VALUES
+SELECT seed.* FROM (VALUES
     (
         'AAA - Produto de R$ 9,90',
         'Produto de teste para verificar a ordenação por preço.',
@@ -72,8 +73,5 @@ VALUES
         1200.00,
         50,
         NOW()
-    );
-
-DROP INDEX IF EXISTS idx_products_category;
-DROP INDEX IF EXISTS idx_products_name;
-DROP INDEX IF EXISTS idx_products_price;
+    )) AS seed(name, description, category, price, stock, created_at)
+WHERE NOT EXISTS (SELECT 1 FROM products WHERE name = seed.name);
