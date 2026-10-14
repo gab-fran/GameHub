@@ -5,3 +5,9 @@ back/data/*.sqlite
 back/dist/
 .env
 front/.env.local
+front/.next-build/
+front/.next-e2e/
+front/playwright-report/
+front/test-results/
+.codex-test-db/
+*.tsbuildinfo

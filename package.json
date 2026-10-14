@@ -6,7 +6,9 @@
     "install:all": "npm install --prefix front && npm install --prefix back",
     "dev": "concurrently \"npm run dev --prefix back\" \"npm run dev --prefix front\"",
     "init-db": "npm run init-db --prefix back",
-    "migrate-db": "npm run migrate-db --prefix back"
+    "migrate-db": "npm run migrate-db --prefix back",
+    "test": "npm test --prefix back",
+    "test:integration": "npm run test:integration --prefix back"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
